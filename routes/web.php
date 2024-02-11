@@ -19,6 +19,18 @@ use App\Http\Controllers\MenuController;
 |
 */
 
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/dashboard', 'AdminController@dashboard')->name('admin.dashboard');
+});
+
+Route::middleware(['auth', 'user'])->group(function () {
+    Route::get('/user/profile', 'UserController@profile')->name('user.profile');
+});
+
+Route::middleware(['auth', 'petugas'])->group(function () {
+    Route::get('/petugas/tasks', 'PetugasController@tasks')->name('petugas.tasks');
+});
+
 Route::get('/', function () {
     return view('welcome');
 });

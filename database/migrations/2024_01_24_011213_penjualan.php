@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('penjualan', function (Blueprint $table) {
             $table->id('PenjualanID');
             $table->date('TanggalPenjualan');
-            $table->decimal('TotalHarga', 10, 2);
+            $table->decimal('TotalHarga', 7, 2);
             $table->unsignedBigInteger('PelangganID');
             $table->timestamps();
 

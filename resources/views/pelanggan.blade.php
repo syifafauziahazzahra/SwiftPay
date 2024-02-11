@@ -9,7 +9,6 @@
         <thead>
             <tr>
                 <th>NO</th>
-                <th>Pelanggan ID</th>
                 <th>Nama Pelanggan</th>
                 <th>Alamat</th>
                 <th>Nomor Telepon</th>
@@ -20,7 +19,6 @@
             @foreach ($data as $key => $item)
             <tr>
                 <td>{{ $key + 1 }}</td>
-                <td>{{ $item->PelangganID }}</td>
                 <td>{{ $item->NamaPelanggan }}</td>
                 <td>{{ $item->Alamat }}</td>
                 <td>{{ $item->NomorTelepon }}</td>
@@ -64,27 +62,21 @@
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="PelangganID" class="form-label">PelangganID <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control form-require" id="PelangganID" name="PelangganID" placeholder="Masukkan PelangganID" required>
-                            <x-input-error :messages="$errors->get('PelangganID')" class="mt-2" />
-                        </div>
-
-                        <div class="mb-3">
                             <label for="NamaPelanggan" class="form-label">NamaPelanggan</label>
                             <input type="text" class="form-control form-require" id="NamaPelanggan" name="NamaPelanggan" placeholder="Masukkan NamaPelanggan" required>
                             <x-input-error :messages="$errors->get('NamaPelanggan')" class="mt-2" />
                         </div>
 
                         <div class="mb-3">
-                            <ladbel for="Alamat" class="form-label">Alamat</label>
-                                <input type="text" class="form-control form-require" id="Alamat" name="Alamat" placeholder="Masukkan Alamat" required>
-                                <x-input-error :messages="$errors->get('Alamat')" class="mt-2" />
+                            <label for="Alamat" class="form-label">Alamat</label>
+                            <input type="text" class="form-control form-require" id="Alamat" name="Alamat" placeholder="Masukkan Alamat" required>
+                            <x-input-error :messages="$errors->get('Alamat')" class="mt-2" />
                         </div>
 
                         <div class="mb-3">
-                            <ladbel for="NomorTelepon" class="form-label">NomorTelepon</label>
-                                <input type="text" class="form-control form-require" id="NomorTelepon" name="NomorTelepon" placeholder="Masukkan NomorTelepon" required>
-                                <x-input-error :messages="$errors->get('NomorTelepon')" class="mt-2" />
+                            <label for="NomorTelepon" class="form-label">NomorTelepon</label>
+                            <input type="text" class="form-control form-require" id="NomorTelepon" name="NomorTelepon" placeholder="Masukkan NomorTelepon" required>
+                            <x-input-error :messages="$errors->get('NomorTelepon')" class="mt-2" />
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -148,15 +140,9 @@
 
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="PelangganID">PelangganID <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control form-require" id="PelangganID" name="PelangganID"
-                                placeholder="Masukan PelangganID" value="${$(e.relatedTarget).data('pelangganid')}" required>
-                            <x-input-error :messages="$errors->get('PelangganID')" class="mt-2" />
-                        </div>
-                        <div class="mb-3">
                             <label for="NamaPelanggan">NamaPelanggan</label>
                             <input type="text" class="form-control form-require" id="NamaPelanggan" name="NamaPelanggan"
-                                placeholder="Masukan NamaPelanggan" value="${$(e.relatedTarget).data('namapelanggan')}" required>
+                                placeholder="Masukan Nama Pelanggan" value="${$(e.relatedTarget).data('namapelanggan')}" required>
                             <x-input-error :messages="$errors->get('NamaPelanggan')" class="mt-2" />
                         </div>
                         <div class="mb-3">
@@ -168,7 +154,7 @@
                         <div class="mb-3">
                             <label for="NomorTelepon">NomorTelepon</label>
                             <input type="text" class="form-control form-require" id="NomorTelepon" name="NomorTelepon"
-                                placeholder="Masukan NomorTelepon" value="${$(e.relatedTarget).data('nomortelepon')}" required>
+                                placeholder="Masukan Nomor Telepon" value="${$(e.relatedTarget).data('nomortelepon')}" required>
                             <x-input-error :messages="$errors->get('NomorTelepon')" class="mt-2" />
                         </div>
                     </div>

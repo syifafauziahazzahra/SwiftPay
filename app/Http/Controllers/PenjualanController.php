@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Penjualan;
+use App\Models\DetailPenjualan;
+use App\Models\Pelanggan;
+use App\Models\Produk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Datatables;
+use Yajra\DataTables\DataTables;
 
 class PenjualanController extends Controller
 {
@@ -12,7 +16,7 @@ class PenjualanController extends Controller
     {
 
         if ($request->ajax()) {
-            $data = DB::table('penjualan')->get();
+            $data = Penjualan::all();
 
             return Datatables::of($data)
                 ->addIndexColumn()
@@ -40,48 +44,77 @@ class PenjualanController extends Controller
                 ->make(true);
         }
 
-        $data = DB::table('penjualan')->get();
-        return view('penjualan', ['data' => $data]);
+        $data = Penjualan::with('pelanggan')->get();
+        $pelanggan = Pelanggan::all();
+        $produk = Produk::all();
+        return view('penjualan', ['data' => $data,  'pelanggan' => $pelanggan, 'produk' => $produk]);
     }
-    
+
 
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'PenjualanID' => 'required',
-            'TanggalPenjualan' => 'required',
-            'TotalHarga' => 'required',
-            'PelangganID' => 'required',
-        ]);
+        // $this->validate($request, [
+        //     'TanggalPenjualan' => 'required',
+        //     'TotalHarga' => 'required',
+        //     'PelangganID' => 'required',
+        // ]);
 
 
-        DB::table('penjualan')->insert([
-            'PenjualanID' => $request->PenjualanID,
-            'TanggalPenjualan' => $request->TanggalPenjualan,
-            'TotalHarga' => $request->TotalHarga,
-            'PelangganID' => $request->PelangganID,
+        // DB::table('penjualan')->insert([
+        //      'TanggalPenjualan' => $request->TanggalPenjualan,
+        //      'TotalHarga' => $request->TotalHarga,
+        //      'PelangganID' => $request->PelangganID,
+        // ]);
+
+        $request->validate([
+            'ProdukID' => 'required|exists:produk,ProdukID',
+            'JumlahProduk' => 'required|integer|min:1',
+            'PelangganID' => 'required|exists:pelanggan,PelangganID',
         ]);
+
+        // Buat transaksi baru
+        $transaksi = new Penjualan();
+        $transaksi->TanggalPenjualan = now(); // Atau sesuaikan dengan tanggal transaksi
+        $transaksi->TotalHarga = 0; // Inisialisasi harga total
+        $transaksi->PelangganID = $request->input('PelangganID'); // Ambil PelangganID dari form
+        $transaksi->save();
+
+        // Simpan detail transaksi
+        $detail = new DetailPenjualan();
+        $detail->PenjualanID = $transaksi->PenjualanID;
+        $detail->ProdukID = $request->ProdukID;
+        $detail->JumlahProduk = $request->JumlahProduk;
+        $detail->Subtotal = Produk::findOrFail($request->ProdukID)->Harga * $request->JumlahProduk;
+        $detail->save();
+
+        // Update harga total transaksi
+        $transaksi->TotalHarga = $detail->Subtotal;
+        $transaksi->save();
+
+        // Update stok produk
+        $produk = Produk::findOrFail($request->ProdukID);
+        $produk->Stok -= $request->JumlahProduk;
+        $produk->save();
+
         return redirect()->back()->with(['message' => 'penjualan berhasil ditambahkan', 'status' => 'success']);
     }
 
 
-    public function update(Request $request, $PenjualanID)
-    {
-        $this->validate($request, [
-            'PenjualanID' => 'required',
-            'TanggalPenjualan' => 'required',
-            'TotalHarga' => 'required',
-            'PelangganID' => 'required',
-        ]);
+    // public function update(Request $request, $PenjualanID)
+    // {
+    //     $this->validate($request, [
+    //         'TanggalPenjualan' => 'required',
+    //         'TotalHarga' => 'required',
+    //         'PelangganID' => 'required',
+    //     ]);
 
-        DB::table('penjualan')->where('PenjualanID', $PenjualanID)->update([
-            'PenjualanID' => $request->PenjualanID,
-            'TanggalPenjualan' => $request->TanggalPenjualan,
-            'TotalHarga' => $request->TotalHarga,
-            'PelangganID' => $request->PelangganID,
-        ]);
-        return redirect()->back()->with(['message' => 'penjualan berhasil di Edit', 'status' => 'success']);
-    }
+    //     DB::table('penjualan')->where('PenjualanID', $PenjualanID)->update([
+    //         'TanggalPenjualan' => $request->TanggalPenjualan,
+    //         'TotalHarga' => $request->TotalHarga,
+    //         'PelangganID' => $request->PelangganID,
+    //     ]);
+    //     return redirect()->back()->with(['message' => 'penjualan berhasil di Edit', 'status' => 'success']);
+    // }
 
 
 

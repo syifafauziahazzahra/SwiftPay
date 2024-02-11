@@ -15,4 +15,9 @@ class DetailPenjualan extends Model
     {
         return $this->belongsTo(Penjualan::class, 'PenjualanID', 'PenjualanID');
     }
+
+    public function produk()
+    {
+        return $this->belongsTo(Produk::class, 'ProdukID', 'ProdukID');
+    }
 }

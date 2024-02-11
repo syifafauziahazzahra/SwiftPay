@@ -48,7 +48,6 @@ class PelangganController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'PelangganID' => 'required',
             'NamaPelanggan' => 'required',
             'Alamat' => 'required',
             'NomorTelepon' => 'required',
@@ -56,7 +55,6 @@ class PelangganController extends Controller
 
 
         DB::table('pelanggan')->insert([
-            'PelangganID' => $request->PelangganID,
             'NamaPelanggan' => $request->NamaPelanggan,
             'Alamat' => $request->Alamat,
             'NomorTelepon' => $request->NomorTelepon,
@@ -68,14 +66,12 @@ class PelangganController extends Controller
     public function update(Request $request, $PelangganID)
     {
         $this->validate($request, [
-            'PelangganID' => 'required',
             'NamaPelanggan' => 'required',
             'Alamat' => 'required',
             'NomorTelepon' => 'required',
         ]);
 
         DB::table('pelanggan')->where('PelangganID', $PelangganID)->update([
-            'PelangganID' => $request->PelangganID,
             'NamaPelanggan' => $request->NamaPelanggan,
             'Alamat' => $request->Alamat,
             'NomorTelepon' => $request->NomorTelepon,

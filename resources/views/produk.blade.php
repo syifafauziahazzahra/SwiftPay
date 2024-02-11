@@ -9,7 +9,6 @@
         <thead>
             <tr>
                 <th>NO</th>
-                <th>PRODUK ID</th>
                 <th>NAMA PRODUK</th>
                 <th>HARGA</th>
                 <th>STOK</th>
@@ -20,7 +19,7 @@
             @foreach ($data as $key => $item)
             <tr>
                 <td>{{ $key + 1 }}</td>
-                <td>{{ $item->ProdukID }}</td>
+                <!-- <td>{{ $item->ProdukID }}</td> -->
                 <td>{{ $item->NamaProduk }}</td>
                 <td>{{ $item->Harga }}</td>
                 <td>{{ $item->Stok }}</td>
@@ -63,14 +62,14 @@
                 <form action="{{ route('produk.store') }}" method="post">
                     @csrf
                     <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="ProdukID" class="form-label">ProdukID <span class="text-danger">*</span></label>
+                        <!-- <div class="mb-3">
+                            <label for="ProdukID" class="form-label">ProdukID </label>
                             <input type="text" class="form-control form-require" id="ProdukID" name="ProdukID" placeholder="Masukkan ProdukID" required>
                             <x-input-error :messages="$errors->get('ProdukID')" class="mt-2" />
-                        </div>
+                        </div> -->
 
                         <div class="mb-3">
-                            <label for="NamaProduk" class="form-label">NamaProduk <span class="text-danger">*</span></label>
+                            <label for="NamaProduk" class="form-label">NamaProduk </label>
                             <input type="text" class="form-control form-require" id="NamaProduk" name="NamaProduk" placeholder="Masukkan NamaProduk" required>
                             <x-input-error :messages="$errors->get('NamaProduk')" class="mt-2" />
                         </div>
@@ -148,15 +147,9 @@
 
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="ProdukID">ProdukID <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control form-require" id="ProdukID" name="ProdukID"
-                                placeholder="Masukan ProdukID" value="${$(e.relatedTarget).data('produkid')}" required>
-                            <x-input-error :messages="$errors->get('ProdukID')" class="mt-2" />
-                        </div>
-                        <div class="mb-3">
-                            <label for="NamaProduk">NamaProduk <span class="text-danger">*</span></label>
+                            <label for="NamaProduk">NamaProduk </label>
                             <input type="text" class="form-control form-require" id="NamaProduk" name="NamaProduk"
-                                placeholder="Masukan NamaProduk" value="${$(e.relatedTarget).data('namaproduk')}" required>
+                                placeholder="Masukan Nama Produk" value="${$(e.relatedTarget).data('namaproduk')}" required>
                             <x-input-error :messages="$errors->get('NamaProduk')" class="mt-2" />
                         </div>
                         <div class="mb-3">

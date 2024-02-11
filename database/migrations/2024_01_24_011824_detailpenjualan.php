@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('PenjualanID');
             $table->unsignedBigInteger('ProdukID');
             $table->integer('JumlahProduk');
-            $table->decimal('Subtotal', 10, 2);
+            $table->decimal('Subtotal', 7, 2);
             $table->timestamps();
 
             $table->foreign('PenjualanID')->references('PenjualanID')->on('penjualan');

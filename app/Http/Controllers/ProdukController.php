@@ -46,7 +46,6 @@ class ProdukController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'ProdukID' => 'required',
             'NamaProduk' => 'required',
             'Harga' => 'required',
             'Stok' => 'required',
@@ -54,7 +53,6 @@ class ProdukController extends Controller
 
 
         DB::table('produk')->insert([
-            'ProdukID' => $request->ProdukID,
             'NamaProduk' => $request->NamaProduk,
             'Harga' => $request->Harga,
             'Stok' => $request->Stok,
@@ -66,14 +64,12 @@ class ProdukController extends Controller
     public function update(Request $request, $ProdukID)
     {
         $this->validate($request, [
-            'ProdukID' => 'required',
             'NamaProduk' => 'required',
             'Harga' => 'required',
             'Stok' => 'required',
         ]);
 
         DB::table('produk')->where('ProdukID', $ProdukID)->update([
-            'ProdukID' => $request->ProdukID,
             'NamaProduk' => $request->NamaProduk,
             'Harga' => $request->Harga,
             'Stok' => $request->Stok,

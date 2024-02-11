@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\detailpenjualanController;
@@ -49,7 +48,7 @@ Route::prefix('detailpenjualan')->group(function () {
     Route::get('/', [detailpenjualanController::class, 'index'])->name('detailpenjualan.index');
     Route::post('/store', [detailpenjualanController::class, 'store'])->name('detailpenjualan.store');
     Route::get('/show/{DetailID}', [detailpenjualanController::class, 'show'])->name('detailpenjualan.show');
-    Route::patch('/update/{DetailID}', [detailpenjualanController::class, 'update'])->name('detailpenjualan.update');
+    Route::get('/print/{DetailID}', [detailpenjualanController::class, 'printPdf'])->name('detailpenjualan.print');
     Route::delete('/destroy/{DetailID}', [detailpenjualanController::class, 'destroy'])->name('detailpenjualan.destroy');
 });
 
@@ -59,6 +58,14 @@ Route::prefix('penjualan')->group(function () {
     Route::get('/show/{PenjualanID}', [PenjualanController::class, 'show'])->name('penjualan.show');
     Route::patch('/update/{PenjualanID}', [PenjualanController::class, 'update'])->name('penjualan.update');
     Route::delete('/destroy/{PenjualanID}', [PenjualanController::class, 'destroy'])->name('penjualan.destroy');
+});
+
+Route::prefix('petugas')->group(function () {
+    Route::get('/', [PetugasController::class, 'index'])->name('petugas.index');
+    Route::post('/store', [PetugasController::class, 'store'])->name('petugas.store');
+    Route::get('/show/{id}', [PetugasController::class, 'show'])->name('petugas.show');
+    Route::patch('/update/{id}', [PetugasController::class, 'update'])->name('petugas.update');
+    Route::delete('/destroy/{id}', [PetugasController::class, 'destroy'])->name('petugas.destroy');
 });
 
 Route::prefix('pelanggan')->group(function () {

@@ -1,12 +1,19 @@
-2<?php
+<?php
 
-namespace App\Models;
+    namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+    use Illuminate\Database\Eloquent\Model;
 
-class Produk extends Model
-{
-    protected $primaryKey = 'ProdukID';
+    class Produk extends Model
+    {
+        protected $table = 'produk';
 
-    // Definisi relasi One-to-Many dengan Produk
-}
+        protected $primaryKey = 'ProdukID';
+
+        // Definisi relasi One-to-Many dengan Produk
+
+        public function detailPenjualan()
+        {
+            return $this->hasMany(DetailPenjualan::class, 'ProdukID', 'ProdukID');
+        }
+    }

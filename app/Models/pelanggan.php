@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pelanggan extends Model
 {
+    protected $table = 'pelanggan';
     protected $primaryKey = 'PelangganID';
 
     // Definisi relasi One-to-Many dengan Penjualan

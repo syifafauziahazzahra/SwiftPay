@@ -27,7 +27,16 @@ Route::post('/register', 'Auth\RegisterController@register')->name('register');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified','checkRole:ADMIN'])->name('dashboard');
+
+Route::get('/petugas', function () {
+    return view('petugas');
+})->middleware(['auth', 'verified','checkRole:PETUGAS'])->name('petugas');
+
+Route::get('/user', function () {
+    return view('user');
+})->middleware(['auth', 'verified','checkRole:USER'])->name('user');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

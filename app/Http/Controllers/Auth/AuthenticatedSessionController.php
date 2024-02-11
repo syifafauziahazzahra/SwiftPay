@@ -29,7 +29,15 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+
+        // Untuk redirect user sesuai dengan role
+        if (Auth::user()->role == 'ADMIN') {
+            return redirect()->intended(RouteServiceProvider::HOME);
+        } else if (Auth::user()->role == 'PETUGAS') {
+            return redirect()->intended(RouteServiceProvider::PETUGAS);
+        } else {
+            return redirect()->intended(RouteServiceProvider::USER);
+        }
     }
 
     /**

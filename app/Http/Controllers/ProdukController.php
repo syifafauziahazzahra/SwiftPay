@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Datatables;
+use Illuminate\Support\Facades\Storage;
 
 class ProdukController extends Controller
 {
@@ -15,11 +16,18 @@ class ProdukController extends Controller
 
             return Datatables::of($data)
                 ->addIndexColumn()
+                ->editColumn(
+                    'Gambar',
+                    function ($row) {
+                        return  '<img src="' . asset("storage/images/" . $row->Gambar) . '" width="100" height="75"/>';
+                    }
+                )
                 ->addColumn('action', function ($row) {
                     $btn = '<div class="d-flex">
                         <button type="button" title="EDIT" class="btn btn-sm btn-biru me-1" data-bs-toggle="modal"
                             data-bs-target="#updateData" data-ProdukID="' . $row->ProdukID . '"
                             data-NamaProduk="' . $row->NamaProduk . '"
+                            data-Gambar="' . $row->Gambar . '"
                             data-Harga="' . $row->Harga . '"
                             data-Stok="' . $row->Stok . '"
                             data-url="' . route('produk.update', ['ProdukID' => $row->ProdukID]) . '">
@@ -35,7 +43,7 @@ class ProdukController extends Controller
                         </div>';
                     return $btn;
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action', 'Gambar'])
                 ->make(true);
         }
 
@@ -47,17 +55,22 @@ class ProdukController extends Controller
     {
         $this->validate($request, [
             'NamaProduk' => 'required',
+            'Gambar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'Harga' => 'required',
             'Stok' => 'required',
         ]);
 
+        $file = $request->file('Gambar');
+        $fileName = 'IMG-' . time() . '-' . $file->getClientOriginalName();
+        Storage::disk('public')->put('produks/' . $fileName, file_get_contents($file));
 
         DB::table('produk')->insert([
             'NamaProduk' => $request->NamaProduk,
+            'Gambar' => $fileName,
             'Harga' => $request->Harga,
             'Stok' => $request->Stok,
         ]);
-        return redirect()->back()->with(['message' => 'produk berhasil ditambahkan', 'status' => 'success']);
+        return redirect()->back()->with(['message' => 'Produk berhasil ditambahkan', 'status' => 'success']);
     }
 
 
@@ -69,19 +82,34 @@ class ProdukController extends Controller
             'Stok' => 'required',
         ]);
 
-        DB::table('produk')->where('ProdukID', $ProdukID)->update([
+        // Ambil data produk yang akan diperbarui
+        $produk = DB::table('produk')->where('ProdukID', $ProdukID)->first();
+
+        // Pastikan bahwa data gambar tetap sama dengan gambar yang ada
+        $updateData = [
             'NamaProduk' => $request->NamaProduk,
             'Harga' => $request->Harga,
             'Stok' => $request->Stok,
-        ]);
-        return redirect()->back()->with(['message' => 'produk berhasil di Edit', 'status' => 'success']);
-    }
+            'Gambar' => $produk->Gambar, // Gunakan gambar yang sudah ada
+        ];
 
+        // Lakukan pembaruan data produk
+        DB::table('produk')->where('ProdukID', $ProdukID)->update($updateData);
+
+        return redirect()->back()->with(['message' => 'Produk berhasil diubah', 'status' => 'success']);
+    }
 
 
     public function destroy($ProdukID)
     {
+        $produk = DB::table('produk')->where('ProdukID', $ProdukID)->first();
+
+        // Hapus gambar terkait dari penyimpanan
+        Storage::disk('public')->delete('produks/' . $produk->Gambar);
+
+        // Hapus data produk dari database
         DB::table('produk')->where('ProdukID', $ProdukID)->delete();
-        return redirect()->back()->with(['message' => 'produk berhasil di Hapus', 'status' => 'success']);
+
+        return redirect()->back()->with(['message' => 'Produk berhasil dihapus', 'status' => 'success']);
     }
 }

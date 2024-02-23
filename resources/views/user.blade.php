@@ -8,5 +8,11 @@
 </head>
 <body>
     ini users
+    <form method="POST" action="{{ route('logout') }}" id="logout-form">
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger">
+                                        {{ __('Log Out') }}
+                                    </button>
+                                </form>
 </body>
 </html>

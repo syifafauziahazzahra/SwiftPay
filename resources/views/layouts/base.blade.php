@@ -18,10 +18,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="{{ url('assets/img/apple-icon.png') }}">
-    <link rel="icon" type="image/png" href="{{ url('assets/img/favicon.png') }}">
+    <link rel="apple-touch-icon" sizes="200x200 href=" {{ url('assets/img/apple-icon.png') }}">
+    <link rel="icon" type="image/png" href="{{ url('assets/img/swiftpay.jpg.png') }}">
     <title>
-        POSISI
+        SwiftPay
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -42,9 +42,9 @@
     <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
         <div class="sidenav-header">
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-            <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html " target="_blank">
-                <img src="{{ url('assets/img/cashier.png') }}" class="navbar-brand-img h-100" alt="main_logo">
-                <span class="ms-1 font-weight-bold">POSISI</span>
+            <a class="navbar-brand m-0" href="https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html" target="_blank">
+                <img src="{{ url('assets/img/SwiftPay.jpg.png') }}" class="navbar-brand-img" style="max-height: 50px; align-center" height="110px" alt="main_logo">
+                <span class="ms-1 py-2 font-weight-bold" style="font-size: 20px; margin-left: -10px;">SwiftPay</span>
             </a>
         </div>
         <hr class="horizontal dark mt-0">
@@ -96,6 +96,7 @@
                     </a>
                 </li>
 
+                @if (Auth::user()->role === 'ADMIN')
                 <li class="nav-item">
                     <a class="nav-link active" href="{{route('petugas.index')}}">
                         <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -104,6 +105,7 @@
                         <span class="nav-link-text ms-1">Petugas</span>
                     </a>
                 </li>
+                @endif
 
             </ul>
         </div>
@@ -118,7 +120,7 @@
                         <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
                         <li class="breadcrumb-item text-sm text-white active" aria-current="page">Dashboard</li>
                     </ol>
-                    <h6 class="font-weight-bolder text-white mb-0">Dashboard</h6>
+                    <h6 class="font-weight-bolder text-white mb-0">{{ Auth::user()->name }}</h6>
                 </nav>
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center">

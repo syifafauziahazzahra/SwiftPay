@@ -23,19 +23,16 @@
                 <td>{{ $item->TotalHarga }}</td>
                 <td>{{ $item->pelanggan->NamaPelanggan }}</td>
                 <td>
-                    <button type="button" title="EDIT" class="btn btn-sm btn-warning me-1" data-bs-toggle="modal" data-bs-target="#updateData" data-PenjualanID="{{ $item->PenjualanID }}" data-TanggalPenjualan="{{ $item->TanggalPenjualan }}" data-TotalHarga="{{ $item->TotalHarga }}" data-PelangganID="{{ $item->PelangganID }}">
-                        <i class="bi bi-pen"></i> UPDATE
-                    </button>
+                    <!-- <button type="button" title="EDIT" class="btn btn-sm btn-warning me-1" data-bs-toggle="modal" data-bs-target="#updateData" data-PenjualanID="{{ $item->PenjualanID }}" data-TanggalPenjualan="{{ $item->TanggalPenjualan }}" data-TotalHarga="{{ $item->TotalHarga }}" data-PelangganID="{{ $item->PelangganID }}">
+                        <i class="bi bi-pen"></i> PERBARUI
+                    </button> -->
                     <form id="deleteForm" action="{{ route('penjualan.destroy', ['PenjualanID' => $item->PenjualanID]) }}" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" title="DELETE" class="btn btn-sm btn-danger">
+                        <button type="submit" title="DELETE" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus penjualan ini beserta detailnya?')">
                             <i class="bi bi-trash"></i> DELETE
                         </button>
                     </form>
-                    <!-- <button type="button" title="DETAIL" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#detailData" data-detailid="{{ $item->DetailID }}" data-jumlahproduk="{{ $item->JumlahProduk }}" data-subtotal="{{ $item->Subtotal }}">
-                        <i class="bi bi-info-circle"></i> DETAIL
-                    </button> -->
 
                 </td>
             </tr>
@@ -59,14 +56,14 @@
         <div class="modal-dialog">
             <div id="modal-content" class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Tambah Data</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Tambah Data Penjual</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('penjualan.store') }}" method="post">
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="PelangganID" class="form-label">PelangganID </label>
+                            <label for="PelangganID" class="form-label">Pelanggan </label>
                             <select class="form-select form-require" name="PelangganID" id="PelangganID">
                                 <option selected>Masukkan Nama Pelanggan</option>
                                 @foreach ($pelanggan as $data)
@@ -76,9 +73,9 @@
                             <x-input-error :messages="$errors->get('PelangganID')" class="mt-2" />
                         </div>
                         <div class="mb-3">
-                            <label for="ProdukID" class="form-label">ProdukID </label>
+                            <label for="ProdukID" class="form-label">Produk </label>
                             <select class="form-select form-require" name="ProdukID" id="ProdukID">
-                                <option selected>Masukkan Produk</option>
+                                <option selected>Masukkan Nama Produk</option>
                                 @foreach ($produk as $data)
                                 <option value="{{ $data->ProdukID }}">{{ $data->NamaProduk }}</option>
                                 @endforeach
@@ -86,7 +83,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="JumlahProduk" class="form-label">JumlahProduk</label>
+                            <label for="JumlahProduk" class="form-label">Jumlah Produk</label>
                             <input type="text" class="form-control form-require" id="JumlahProduk" name="JumlahProduk" placeholder="Masukkan JumlahProduk" required>
                             <x-input-error :messages="$errors->get('JumlahProduk')" class="mt-2" />
                         </div>
@@ -230,14 +227,14 @@
             // ...
 
             var html = `
-        <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">Edit Data Penjualan</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <form action="{{ route('penjualan.update', ['PenjualanID' => ':PenjualanID']) }}" method="post">
-            @csrf
-            @method('PATCH')
-            <div class="modal-body">
+    <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Edit Data Penjualan</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <form action="/penjualan/update/${PenjualanID}" method="post">
+        @csrf
+        @method('PATCH')
+        <div class="modal-body">
                 <div class="mb-3">
                     <label for="PelangganID" class="form-label">Pelanggan</label>
                     <select class="form-select form-require" name="PelangganID" id="PelangganID">
@@ -265,15 +262,12 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
-            </div>
-        </form>
-    </div>
-`;
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
+    </form>
+    `;
 
-            // Gantilah ':PenjualanID' dengan nilai PenjualanID
-            html = html.replace(':PenjualanID', PenjualanID);
             $('#modal-content').html(html);
         });
 

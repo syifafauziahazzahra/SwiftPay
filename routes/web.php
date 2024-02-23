@@ -6,8 +6,9 @@ use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\detailpenjualanController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\PetugasController;
 use App\Http\Controllers\MenuController;
-
+use Carbon\Carbon;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,18 +20,6 @@ use App\Http\Controllers\MenuController;
 |
 */
 
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin/dashboard', 'AdminController@dashboard')->name('admin.dashboard');
-});
-
-Route::middleware(['auth', 'user'])->group(function () {
-    Route::get('/user/profile', 'UserController@profile')->name('user.profile');
-});
-
-Route::middleware(['auth', 'petugas'])->group(function () {
-    Route::get('/petugas/tasks', 'PetugasController@tasks')->name('petugas.tasks');
-});
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -38,17 +27,50 @@ Route::get('/', function () {
 Route::post('/register', 'Auth\RegisterController@register')->name('register');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified','checkRole:ADMIN'])->name('dashboard');
+    $mondayOfLastWeek = Carbon::now()->startOfWeek()->toDateString();
 
-Route::get('/petugas', function () {
-    return view('petugas');
-})->middleware(['auth', 'verified','checkRole:PETUGAS'])->name('petugas');
+    $sundayOfLastWeek = Carbon::now()->endOfWeek()->toDateString();
+
+    $totalPenjualanPerDay = DB::table('penjualan')
+        ->selectRaw('
+        SUM(CASE WHEN DAYOFWEEK(TanggalPenjualan) = 2 THEN TotalHarga ELSE 0 END) AS Monday,
+        SUM(CASE WHEN DAYOFWEEK(TanggalPenjualan) = 3 THEN TotalHarga ELSE 0 END) AS Tuesday,
+        SUM(CASE WHEN DAYOFWEEK(TanggalPenjualan) = 4 THEN TotalHarga ELSE 0 END) AS Wednesday,
+        SUM(CASE WHEN DAYOFWEEK(TanggalPenjualan) = 5 THEN TotalHarga ELSE 0 END) AS Thursday,
+        SUM(CASE WHEN DAYOFWEEK(TanggalPenjualan) = 6 THEN TotalHarga ELSE 0 END) AS Friday,
+        SUM(CASE WHEN DAYOFWEEK(TanggalPenjualan) = 7 THEN TotalHarga ELSE 0 END) AS Saturday,
+        SUM(CASE WHEN DAYOFWEEK(TanggalPenjualan) = 1 THEN TotalHarga ELSE 0 END) AS Sunday
+    ')
+        ->whereDate('TanggalPenjualan', '>=', $mondayOfLastWeek)
+        ->whereDate('TanggalPenjualan', '<=', $sundayOfLastWeek)
+        ->first();
+
+    $val = [];
+    foreach ($totalPenjualanPerDay as $key => $value) {
+        $val[] = $value;
+    }
+
+    $chartPenjualan = [
+        'labels' => ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
+        'datasets' => [
+            [
+                'label' => 'Penjualan',
+                'backgroundColor' => 'rgba(54, 162, 235, 0.2)',
+                'borderColor' => 'rgba(54, 162, 235, 1)',
+                'borderWidth' => 1,
+                'data' => $val,
+            ],
+        ],
+    ];
+
+
+
+    return view('dashboard', ['chartPenjualan' => $chartPenjualan]);
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/user', function () {
     return view('user');
-})->middleware(['auth', 'verified','checkRole:USER'])->name('user');
-
+})->middleware(['auth', 'verified', 'checkRole:USER'])->name('user');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

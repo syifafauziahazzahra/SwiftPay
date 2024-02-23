@@ -1,172 +1,224 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Site Metas -->
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <title>POSISI</title>
 
-    <title>Point of Sale in system</title>
+
+    <!-- bootstrap core css -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('temp/css/bootstrap.css') }}">
+
+    <!-- fonts style -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
+
+    <!-- font awesome style -->
+    <link href="{{ asset('temp/css/font-awesome.min.css') }} " rel="stylesheet">
+    <!-- nice select -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous">
+    <!-- slidck slider -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" integrity="sha256-UK1EiopXIL+KVhfbFa8xrmAWPeBjMVdvYMYkTAEv/HI=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css.map" integrity="undefined" crossorigin="anonymous">
+
+
+    <!-- Custom styles for this template -->
+    <link href="{{ asset('temp/css/style.css') }}" rel="stylesheet">
+    <!-- responsive style -->
+    <link href="{{ asset('temp/css/responsive.css') }}" rel="stylesheet">
+
 </head>
 
 <body>
-    <!--Bootstrap Icons-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
 
-    <!--My CSS-->
-    <link rel="stylesheet" href="style.css" />
+    <div class="hero_area">
+        <!-- header section strats -->
+        <header class="header_section">
+            <div class="container-fluid">
+                <nav class="navbar navbar-expand-lg custom_nav-container">
+                    <a class="navbar-brand" href="index.html">
+                        <span>
+                            CipaCup's
+                        </span>
+                    </a>
+                    <div class="" id="">
+                        @if (Route::has('login'))
+                        <div class="User_option">
+                            @auth
+                            <a href="{{ url('/dashboard') }}">
+                                <i class="#" aria-hidden="true"></i>
+                                <span>Home</span>
+                            </a>
+                            @else
+                            <a href="{{ route('login') }}">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                <span>Login</span>
+                            </a>
+                            <!-- @if (Route::has('register'))
+                            <a href="{{ route('register') }}">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                <span>Register</span>
+                            </a> -->
+                            @endif
+                            @endauth
+                        </div>
+                        @endif
+                        <div class="custom_menu-btn">
+                            <button onclick="openNav()">
+                                <img src="{{ asset('temp/images/menu.png') }}') }}" alt="">
+                            </button>
+                        </div>
+                        <div id="myNav" class="overlay">
 
-    <!--Navbar-->
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: rgb(162, 85, 235)">
-        <div class="container">
-            <a class="navbar-brand" href="Home">Point Of Sale in system</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Our Menu</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-outline-white me-2" href="login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-outline-white" href="register">Register</a>
-                    </li>
-                </ul>
+                        </div>
+                    </div>
+                </nav>
             </div>
-        </div>
-    </nav>
+        </header>
+        <!-- end header section -->
 
-    <!--Akhir Navbar-->
-
-    <!--Jumbotron-->
-
-    <section class="jumbotron text-center">
-        <h1 class="display-4">syifa fauziah azzahra</h1>
-        <p class="lead">Pelajar | Content Creator</p>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-            <path fill="#ffff" fill-opacity="1" d="M0,160L40,133.3C80,107,160,53,240,58.7C320,64,400,128,480,138.7C560,149,640,107,720,96C800,85,880,107,960,122.7C1040,139,1120,149,1200,144C1280,139,1360,117,1400,106.7L1440,96L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"></path>
-        </svg>
-    </section>
-    <!--Akhir Jumbotron-->
-
-    <!--About-->
-    <section class="about">
-        <div class="container">
-            <div class="row text-center">
-                <div class="col">
-                    <h2>Home</h2>
-                </div>
-            </div>
-            <div class="row justify-content-center fs-5">
-                <div class="col">
-                    <p>
-                        Haiii...Aku Syifa Fauziah Azzahra,Panggil saja cipaa hehe aku berada di kelas 11 Rekayasa Perangkat Lunak atau RPL 2. Hobiku berlari, Berenang dan bermain bulu tangkis,kalian pasti tau kan? unggu adalah warna favoritku karenaa ya bagus
-                        aja sii wkwk.Aku sangat dekat dengan ayahku sedekat gigi gigi yang berdampingan hehehe.Aku paling suka makan kue cubit.
-                    </p>
-                </div>
-                <div class="col">
-                    <p>
-                        Aku suka berorganisasi,aku adalah ketua sekbid 1,Sekertaris Rohis,Anggota DMV,Ketua ekskul ESA dan wakil ketua karate.Hari hariku sudah terbiasa pulang jam 6 sore karena banyaknya kegiatan yang aku ikuti di SMKN 4
-                        BOGOR. Ada juga organisasi luar sekolah yang aku ikuti seperti,Karang Taruna kelurahan cipaku dan volunteer Cinta Qur'an Indonesia, dan IRMA KCD Wilayah II.
-                    </p>
-                </div>
-            </div>
-        </div>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-            <path fill="rgb(224, 209, 239)" fill-opacity="1" d="M0,32L30,32C60,32,120,32,180,58.7C240,85,300,139,360,133.3C420,128,480,64,540,42.7C600,21,660,43,720,58.7C780,75,840,85,900,112C960,139,1020,181,1080,176C1140,171,1200,117,1260,90.7C1320,64,1380,64,1410,64L1440,64L1440,320L1410,320C1380,320,1320,320,1260,320C1200,320,1140,320,1080,320C1020,320,960,320,900,320C840,320,780,320,720,320C660,320,600,320,540,320C480,320,420,320,360,320C300,320,240,320,180,320C120,320,60,320,30,320L0,320Z"></path>
-        </svg>
-    </section>
-    <!--Akhir About-->
-
-    <!--Berorganisasi-->
-    <section id="Berorganisasi">
-        <div class="container">
-            <div class="row text-center">
-                <div class="col">
-                    <h2>Our Menu</h2>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <img src="img/makanan1.jpg" class="card-img-top" alt="Makanan 1" />
-                        <div class="card-body">
-                            <p class="card-text">Deskripsi makanan 1</p>
+        <!-- slider section -->
+        <section class="slider_section ">
+            <div class="container ">
+                <div class="row">
+                    <div class="col-lg-10 mx-auto">
+                        <div class="detail-box">
+                            <h1>
+                                Cipacup's Cafe
+                            </h1>
+                            <p>
+                                menawarkan kombinasi unik minuman (cups) dengan berbagai variasi warna dan rasa
+                            </p>
+                        </div>
+                        <div class="find_container ">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <form>
+                                            <div class="form-row ">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <img src="img/makanan2.jpg" class="card-img-top" alt="Makanan 2" />
-                        <div class="card-body">
-                            <p class="card-text">Deskripsi makanan 2</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <img src="img/makanan3.jpg" class="card-img-top" alt="Makanan 3" />
-                        <div class="card-body">
-                            <p class="card-text">Deskripsi makanan 3</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- You can add more food items here -->
             </div>
-        </div>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-            <path fill="#ffffff" fill-opacity="1" d="M0,96L30,85.3C60,75,120,53,180,85.3C240,117,300,203,360,208C420,213,480,139,540,122.7C600,107,660,149,720,138.7C780,128,840,64,900,74.7C960,85,1020,171,1080,192C1140,213,1200,171,1260,154.7C1320,139,1380,149,1410,154.7L1440,160L1440,320L1410,320C1380,320,1320,320,1260,320C1200,320,1140,320,1080,320C1020,320,960,320,900,320C840,320,780,320,720,320C660,320,600,320,540,320C480,320,420,320,360,320C300,320,240,320,180,320C120,320,60,320,30,320L0,320Z"></path>
-        </svg>
-    </section>
-    <!--Akhir Berorganisasi-->
+            <br>
+            <div class="slider_container">
+                <!-- <div class="item">
+                    <div class="img-box">
+                        <img src="{{ asset('temp/images/wafle.jpg.jpg') }}" alt="" height="350">
+                    </div>
+                </div> -->
+                <div class="item">
+                    <div class="img-box">
+                        <img src="{{ asset('temp/images/manggo.jpg') }}" alt="" height="350">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="img-box">
+                        <img src="{{ asset('temp/images/triple berry.jpg') }}" alt="" height="350">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="img-box">
+                        <img src="{{ asset('temp/images/cokelat.jpg') }}" alt="" height="350">
+                    </div>
+                </div>
+                <!-- <div class="item">
+                    <div class="img-box">
+                        <img src="{{ asset('temp/images/kentang.jpg.jpg') }}" alt="" height="350">
+                    </div>
+                </div> -->
+                <div class="item">
+                    <div class="img-box">
+                        <img src="{{ asset('temp/images/strawbery.jpg') }}" alt="" height="350">
+                    </div>
+                </div>
+                <!-- <div class="item">
+                    <div class="img-box">
+                        <img src="{{ asset('temp/images/burger.jpg') }}" alt="" height="350">
+                    </div>
+                </div> -->
+                <div class="item">
+                    <div class="img-box">
+                        <img src="{{ asset('temp/images/matcha.jpg') }}" alt="" height="350">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- end slider section -->
+    </div>
 
-    <!--Contact-->
-    <section id="contact">
+    <!-- about section -->
+
+    <section class="about_section layout_padding">
         <div class="container">
-            <div class="row text-center mb-3">
-                <div class="col">
-                    <h2>Contact Me</h2>
+            <div class="col-md-11 col-lg-10 mx-auto">
+                <div class="heading_container heading_center">
+                    <h2>
+                        About Us
+                    </h2>
                 </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-md-5">
-                    <form>
-                        <div class="mb-3">
-                            <label for="Nama" class="form-label">Nama Lengkap</label>
-                            <input type="Nama" class="form-control" id="Nama" aria-describedby="Nama" />
-                            <div id="Nama" class="form-text">Masukan nama lengkap anda dengan benar</div>
+                <div class="box">
+                    <div class="col-md-7 mx-auto">
+                        <div class="img-box">
+                            <img src="{{ asset('temp/images/cup.png') }}" class="box-img" alt="">
                         </div>
-                        <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Kata Sandi</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" />
-                        </div>
-                        <div class="mb-3">
-                            <label for="Pesan" class="form-label">Pesan</label>
-                            <textarea class="form-control" id="Pesan" rows="3"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Kirim</button>
-                    </form>
+                    </div>
+                    <div class="detail-box">
+                        <p>
+                            CipaCup's merupakan tempat nongkrong yang menyajikan minuman (cups) yang beragam. Di sini, pengunjung dapat menemukan berbagai minuman segar yang disajikan dalam cup. Pengunjung dapat menikmati strawbery smoothies dan milkshakes dengan berbagai pilihan rasa yang disesuaikan dengan selera masing-masing.
+
+                            Dengan suasana yang nyaman dan menyenangkan, CipaCup's menjadi tempat yang cocok untuk berkumpul bersama teman atau keluarga sambil menikmati minuman yang menyegarkan. Konsep uniknya menjadikan CipaCup's sebagai tempat nongkrong yang menarik bagi pecinta minuman segar.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-    <!--Akhir Contact-->
 
-    <!--Footer-->
-    <footer class="bg-background-color: rgb(162, 85, 235) text-center">
-        <p>Created with <i class="bi bi-heart-fill text-danger"></i> by <a href="https://www.instagram.com/cipaa.fzh/?hl=en">Syifa Fauziah</a></p>
-    </footer>
-    <!--Akhir Footer-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!-- end about section -->
+
+    <div class="footer_container">
+
+
+
+        <!-- footer section -->
+        <footer class="footer_section">
+            <div class="container">
+                <p>
+                    &copy; <span id="displayYear"></span> All Rights Reserved By
+                    <a href="https://html.design/"></a><br>
+                    Distributed By: <a href="https://themewagon.com/">Syifa Fauziah Azzahra</a>
+                </p>
+            </div>
+        </footer>
+        <!-- footer section -->
+
+    </div>
+    <!-- jQery -->
+    <script src="{{ asset('temp/js/jquery-3.4.1.min.js') }}"></script>
+    <!-- bootstrap js -->
+    <script src="{{ asset('temp/js/bootstrap.js') }}"></script>
+    <!-- slick  slider -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.js"></script>
+    <!-- nice select -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js" integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
+    <!-- custom js -->
+    <script src="{{ asset('temp/js/custom.js') }}"></script>
+
+
 </body>
 
 </html>

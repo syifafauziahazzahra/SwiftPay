@@ -19,7 +19,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     // define the route for each role
     public const HOME = '/dashboard';
-    public const USER = '/users';
+    public const USER = '/user';
     public const PETUGAS = '/petugas';
 
     /**

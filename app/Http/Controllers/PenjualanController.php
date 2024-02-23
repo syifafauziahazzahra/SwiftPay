@@ -8,6 +8,7 @@ use App\Models\Pelanggan;
 use App\Models\Produk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
 class PenjualanController extends Controller
@@ -16,7 +17,7 @@ class PenjualanController extends Controller
     {
 
         if ($request->ajax()) {
-            $data = Penjualan::all();
+            $data = Penjualan::where("PetugasID", Auth::User()->id)->get();
 
             return Datatables::of($data)
                 ->addIndexColumn()
@@ -44,7 +45,8 @@ class PenjualanController extends Controller
                 ->make(true);
         }
 
-        $data = Penjualan::with('pelanggan')->get();
+        // Metode index()
+        $data = Penjualan::with('pelanggan')->where("PetugasID", Auth::id())->get();
         $pelanggan = Pelanggan::all();
         $produk = Produk::all();
         return view('penjualan', ['data' => $data,  'pelanggan' => $pelanggan, 'produk' => $produk]);
@@ -77,12 +79,14 @@ class PenjualanController extends Controller
         $transaksi->TanggalPenjualan = now(); // Atau sesuaikan dengan tanggal transaksi
         $transaksi->TotalHarga = 0; // Inisialisasi harga total
         $transaksi->PelangganID = $request->input('PelangganID'); // Ambil PelangganID dari form
+        $transaksi->PetugasID = Auth::user()->id;
         $transaksi->save();
 
         // Simpan detail transaksi
         $detail = new DetailPenjualan();
         $detail->PenjualanID = $transaksi->PenjualanID;
         $detail->ProdukID = $request->ProdukID;
+        $detail->PetugasID = Auth::user()->id;
         $detail->JumlahProduk = $request->JumlahProduk;
         $detail->Subtotal = Produk::findOrFail($request->ProdukID)->Harga * $request->JumlahProduk;
         $detail->save();
@@ -120,7 +124,12 @@ class PenjualanController extends Controller
 
     public function destroy($PenjualanID)
     {
-        DB::table('penjualan')->where('PenjualanID', $PenjualanID)->delete();
-        return redirect()->back()->with(['message' => 'penjualan berhasil di Hapus', 'status' => 'success']);
+        // Hapus detail penjualan terkait
+        DetailPenjualan::where('PenjualanID', $PenjualanID)->delete();
+
+        // Hapus penjualan
+        Penjualan::destroy($PenjualanID);
+
+        return redirect()->back()->with(['message' => 'Penjualan berhasil dihapus beserta detailnya', 'status' => 'success']);
     }
 }

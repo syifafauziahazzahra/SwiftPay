@@ -10,6 +10,7 @@
             <tr>
                 <th>NO</th>
                 <th>NAMA PRODUK</th>
+                <th>Gambar Produk</th>
                 <th>HARGA</th>
                 <th>STOK</th>
                 <th>TOOLS</th>
@@ -21,17 +22,18 @@
                 <td>{{ $key + 1 }}</td>
                 <!-- <td>{{ $item->ProdukID }}</td> -->
                 <td>{{ $item->NamaProduk }}</td>
+                <td><img src="{{ asset("storage/produks/" . $item->Gambar) }}" width="100" height="75" /></td>
                 <td>{{ $item->Harga }}</td>
                 <td>{{ $item->Stok }}</td>
                 <td>
-                    <button type="button" title="EDIT" class="btn btn-sm btn-warning me-1" data-bs-toggle="modal" data-bs-target="#updateData" data-ProdukID="{{ $item->ProdukID }}" data-NamaProduk="{{ $item->NamaProduk }}" data-Harga="{{ $item->Harga }}" data-Stok="{{ $item->Stok }}" data-url="{{ route('produk.update', ['ProdukID' => $item->ProdukID]) }}">
-                        <i class="bi bi-pen"></i> UPDATE
+                    <button type="button" title="EDIT" class="btn btn-sm btn-warning me-1" data-bs-toggle="modal" data-bs-target="#updateData" data-ProdukID="{{ $item->ProdukID }}" data-NamaProduk="{{ $item->NamaProduk }}" data-Harga="{{ $item->Harga }}" data-Stok="{{ $item->Stok }}" data-Gambar="{{ $item->Gambar }}" data-url="{{ route('produk.update', ['ProdukID' => $item->ProdukID]) }}">
+                        <i class="bi bi-pen"></i> PERBARUI
                     </button>
                     <form id="deleteForm" action="{{ route('produk.destroy', ['ProdukID' => $item->ProdukID]) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" title="DELETE" class="btn btn-sm btn-danger">
-                            <i class="bi bi-trash"></i> DELETE
+                            <i class="bi bi-trash"></i> HAPUS
                         </button>
                     </form>
                 </td>
@@ -56,12 +58,12 @@
         <div class="modal-dialog">
             <div id="modal-content" class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Tambah Data</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Tambah Data Produk</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('produk.store') }}" method="post">
+                <form action="{{ route('produk.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
-                    <div class="modal-body">
+                    <div class=" modal-body">
                         <!-- <div class="mb-3">
                             <label for="ProdukID" class="form-label">ProdukID </label>
                             <input type="text" class="form-control form-require" id="ProdukID" name="ProdukID" placeholder="Masukkan ProdukID" required>
@@ -69,20 +71,26 @@
                         </div> -->
 
                         <div class="mb-3">
-                            <label for="NamaProduk" class="form-label">NamaProduk </label>
-                            <input type="text" class="form-control form-require" id="NamaProduk" name="NamaProduk" placeholder="Masukkan NamaProduk" required>
+                            <label for="NamaProduk" class="form-label">Nama Produk </label>
+                            <input type="text" class="form-control form-require" id="NamaProduk" name="NamaProduk" placeholder="Masukkan Nama Produk" required>
                             <x-input-error :messages="$errors->get('NamaProduk')" class="mt-2" />
                         </div>
 
                         <div class="mb-3">
-                            <label for="Harga" class="form-label">Harga</label>
-                            <input type="text" class="form-control form-require" id="Harga" name="Harga" placeholder="Masukkan Harga" required>
+                            <label for="Gambar" class="form-label">Gambar</label>
+                            <input type="file" class="form-control form-require" id="Gambar" name="Gambar" placeholder="Masukkan Gambar Produk" required>
+                            <x-input-error :messages="$errors->get('Gambar')" class="mt-2" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="Harga" class="form-label">Harga Produk</label>
+                            <input type="text" class="form-control form-require" id="Harga" name="Harga" placeholder="Masukkan Harga Produk" required>
                             <x-input-error :messages="$errors->get('Harga')" class="mt-2" />
                         </div>
 
                         <div class="mb-3">
-                            <ladbel for="Stok" class="form-label">Stok</label>
-                                <input type="text" class="form-control form-require" id="Stok" name="Stok" placeholder="Masukkan Stok" required>
+                            <ladbel for="Stok" class="form-label">Stok Produk</label>
+                                <input type="text" class="form-control form-require" id="Stok" name="Stok" placeholder="Masukkan Stok Produk" required>
                                 <x-input-error :messages="$errors->get('Stok')" class="mt-2" />
                         </div>
                     </div>
@@ -124,6 +132,7 @@
                     data: 'NamaProduk',
                     name: 'NamaProduk'
                 },
+               
                 {
                     data: 'Harga',
                     name: 'Harga'
@@ -138,7 +147,7 @@
         $('#updateData').on('shown.bs.modal', function(e) {
             var html = `
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Edit Quote</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Edit Data Produk</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="${$(e.relatedTarget).data('url')}" method="post">
@@ -147,19 +156,19 @@
 
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="NamaProduk">NamaProduk </label>
+                            <label for="NamaProduk">Nama Produk </label>
                             <input type="text" class="form-control form-require" id="NamaProduk" name="NamaProduk"
                                 placeholder="Masukan Nama Produk" value="${$(e.relatedTarget).data('namaproduk')}" required>
                             <x-input-error :messages="$errors->get('NamaProduk')" class="mt-2" />
-                        </div>
+                       
                         <div class="mb-3">
-                            <label for="Harga">Harga</label>
+                            <label for="Harga">Harga Produk</label>
                             <input type="text" class="form-control form-require" id="Harga" name="Harga"
                                 placeholder="Masukan Harga" value="${$(e.relatedTarget).data('harga')}" required>
                             <x-input-error :messages="$errors->get('Harga')" class="mt-2" />
                         </div>
                         <div class="mb-3">
-                            <label for="Stok">Stok</label>
+                            <label for="Stok">Stok Produk</label>
                             <input type="text" class="form-control form-require" id="Stok" name="Stok"
                                 placeholder="Masukan Stok" value="${$(e.relatedTarget).data('stok')}" required>
                             <x-input-error :messages="$errors->get('Stok')" class="mt-2" />
@@ -172,6 +181,12 @@
                 </form>
             `;
             $('#modal-content').html(html);
+
+            // Fill input file with current image
+            var currentImage = "${$(e.relatedTarget).data('gambar')}";
+            if (currentImage) {
+                $('#Gambar').val(currentImage);
+            }
         });
     });
 </script>

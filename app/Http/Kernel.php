@@ -13,11 +13,7 @@ class Kernel extends HttpKernel
      *
      * @var array<int, class-string|string>
      */
-    protected $middleware = [
-        'admin' => \App\Http\Middleware\AdminMiddleware::class,
-        'user' => \App\Http\Middleware\UserMiddleware::class,
-        'petugas' => \App\Http\Middleware\PetugasMiddleware::class,
-    ];
+    protected $middleware = [];
 
     /**
      * The application's route middleware groups.

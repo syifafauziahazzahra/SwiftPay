@@ -4,85 +4,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Penjualan</title>
-    <!-- Bootstrap CSS -->
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <title>Struk Penjualan</title>
     <style>
-        /* Gaya CSS untuk tampilan cetak */
         body {
             font-family: Arial, sans-serif;
+            width: 300px;
+            margin: auto;
+            padding: 10px;
+            border: 2px solid #000;
+            border-radius: 10px;
+            box-shadow: 0px 0px 5px 0px #888;
         }
 
-        .container {
-            margin-top: 20px;
+        .logo {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .logo img {
+            width: 100px;
+            height: auto;
         }
 
         h1 {
-            margin-bottom: 20px;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 18px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            max-height: 200px;
+            /* Ketinggian maksimum untuk tabel */
+            overflow-y: auto;
+            /* Tambahkan scrollbar vertikal jika konten melebihi ketinggian maksimum */
+            border-bottom: none;
+            /* Hapus garis pinggir bawah */
         }
 
         th,
         td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
+            border: none;
+            padding: 5px;
         }
 
-        th {
-            background-color: #f2f2f2;
+        .subtotal {
+            margin-top: 10px;
+            text-align: right;
+            font-weight: bold;
+            font-size: 16px;
         }
 
-        .btn {
-            display: none;
-            /* Sembunyikan tombol cetak saat mencetak */
+        .footer {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 12px;
+            color: #888;
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1>Detail Penjualan</h1>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Detail ID</th>
-                    <th>Penjualan ID</th>
-                    <th>Produk ID</th>
-                    <th>Jumlah Produk</th>
-                    <th>Subtotal</th>
-                    <th>Pelanggan Alamat</th>
-                    <th>Tanggal Pemesanan</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{{ $detailPenjualan->id }}</td>
-                    <td>{{ $detailPenjualan->penjualan->PenjualanID }}</td>
-                    <td>{{ $detailPenjualan->ProdukID }}</td>
-                    <td>{{ $detailPenjualan->JumlahProduk }}</td>
-                    <td>{{ $detailPenjualan->Subtotal }}</td>
-                    <td>{{ $detailPenjualan->penjualan->pelanggan->Alamat }}</td>
-                    <td>{{ $detailPenjualan->penjualan->TanggalPemesanan }}</td>
-                </tr>
-            </tbody>
-        </table>
+    <h1>Struk Penjualan</h1>
+    <h1>CipaCup's Cafe</h1>
+    <br>
+    <table>
+        <tr>
+            <td>Nama Pelanggan:</td>
+            <td>{{ $data->penjualan->pelanggan->NamaPelanggan }}</td>
+
+        </tr>
+        <tr>
+            <td>Tanggal Penjualan:</td>
+            <td>{{ $data->penjualan ? $data->penjualan->TanggalPenjualan : 'Tidak ada data penjualan' }}</td>
+        </tr>
+        <tr>
+            <td>Nama Produk:</td>
+            <td>{{ $data->produk ? $data->produk->NamaProduk : 'Tidak ada data produk' }}</td>
+        </tr>
+        <tr>
+            <td>Jumlah Produk:</td>
+            <td>{{ $data->JumlahProduk }}</td>
+        </tr>
+        <br>
+    </table>
+    <div class="subtotal">
+        Total: {{ $data->Subtotal }}
     </div>
-
-    <!-- Bootstrap JS -->
-    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-
-    <script>
-        // Sembunyikan tombol cetak saat mencetak
-        window.onload = function() {
-            window.print();
-        }
-    </script>
+    <!-- <div class="footer">
+        Ini Struk CipaCup's Cafe - SwiftPay
+    </div> -->
 </body>
 
 </html>

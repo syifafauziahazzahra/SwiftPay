@@ -8,15 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Penjualan extends Model
 {
     use HasFactory;
+
     protected $table = 'penjualan';
     protected $primaryKey = 'PenjualanID';
 
-    // Definisi relasi BelongsTo dengan Pelanggan
-    public function detailPenjualan()
+    // Definisi relasi HasMany dengan DetailPenjualan
+    public function detailPenjualans()
     {
-        return $this->hasMany(DetailPenjualan::class, 'PenjualanID', 'PenjualanID');
+        return $this->hasOne(DetailPenjualan::class, 'PenjualanID', 'PenjualanID');
     }
 
+    // Relasi BelongsTo dengan Pelanggan
     public function pelanggan()
     {
         return $this->belongsTo(Pelanggan::class, 'PelangganID', 'PelangganID');

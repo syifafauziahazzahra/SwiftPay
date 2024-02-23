@@ -9,8 +9,9 @@
         <thead>
             <tr>
                 <th>NO</th>
-                <th>Produk</th>
                 <th>Pelanggan</th>
+                <th>Tanggal Penjualan</th>
+                <th>Produk</th>
                 <th>Jumlah Produk</th>
                 <th>Subtotal</th>
                 <th>Tools</th>
@@ -20,8 +21,9 @@
             @foreach ($data as $key => $item)
             <tr>
                 <td>{{ $key + 1 }}</td>
-                <td>{{ $item->produk->NamaProduk }}</td>
                 <td>{{ $item->penjualan->pelanggan->NamaPelanggan }}</td>
+                <td>{{ $item->penjualan->TanggalPenjualan }}</td>
+                <td>{{ $item->produk->NamaProduk }}</td>
                 <td>{{ $item->JumlahProduk }}</td>
                 <td>{{ $item->Subtotal }}</td>
                 <td>

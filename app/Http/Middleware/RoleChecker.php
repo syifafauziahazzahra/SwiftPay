@@ -14,15 +14,14 @@ class RoleChecker
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next,$permission): Response
+    public function handle(Request $request, Closure $next, $permission): Response
     {
+        $ps = explode('|', $permission);
 
         // Untuk Mengecek apakah user memiliki role yang diizinkan admin petugas dan useer
-        if (Auth::user()->role == $permission) {
+        if (in_array(Auth::user()->role, $ps)) {
             return $next($request);
         }
         return redirect('/');
     }
 }
-
-

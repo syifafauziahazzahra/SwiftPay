@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Datatables;
 
 class PelangganController extends Controller
@@ -12,7 +13,7 @@ class PelangganController extends Controller
     {
 
         if ($request->ajax()) {
-            $data = DB::table('pelanggan')->get();
+            $data = DB::where("PetugasID", Auth::User()->id)->get();
 
             return Datatables::of($data)
                 ->addIndexColumn()
@@ -22,8 +23,8 @@ class PelangganController extends Controller
                             data-bs-target="#updateData" data-PelangganID="' . $row->PelangganID . '"
                             data-PelangganID="' . $row->PelangganID . '"
                             data-NamaPelanggan="' . $row->NamaPelanggan . '"
-                            data-Alamat="' . $row->Alamat . '"
-                            data-NomorTelepon="' . $row->NomorTelepon . '"
+                            // data-Alamat="' . $row->Alamat . '"
+                            // data-NomorTelepon="' . $row->NomorTelepon . '"
                             data-url="' . route('pelanggan.update', ['PelangganID' => $row->PelangganID]) . '">
                             <i class="bi bi-pen"></i>
                         </button>
@@ -41,7 +42,7 @@ class PelangganController extends Controller
                 ->make(true);
         }
 
-        $data = DB::table('pelanggan')->get();
+        $data = DB::table('pelanggan')->where("PetugasID", Auth::id())->get();
         return view('pelanggan', ['data' => $data]);
     }
 
@@ -49,35 +50,36 @@ class PelangganController extends Controller
     {
         $this->validate($request, [
             'NamaPelanggan' => 'required',
-            'Alamat' => 'required',
-            'NomorTelepon' => 'required',
+            // 'Alamat' => 'required',
+            // 'NomorTelepon' => 'required',
         ]);
 
 
         DB::table('pelanggan')->insert([
             'NamaPelanggan' => $request->NamaPelanggan,
-            'Alamat' => $request->Alamat,
-            'NomorTelepon' => $request->NomorTelepon,
+            'PetugasID' => Auth::id(),
+            // 'Alamat' => $request->Alamat,
+            // 'NomorTelepon' => $request->NomorTelepon,
         ]);
         return redirect()->back()->with(['message' => 'pelanggan berhasil ditambahkan', 'status' => 'success']);
     }
 
 
-    public function update(Request $request, $PelangganID)
-    {
-        $this->validate($request, [
-            'NamaPelanggan' => 'required',
-            'Alamat' => 'required',
-            'NomorTelepon' => 'required',
-        ]);
+    // public function update(Request $request, $PelangganID)
+    // {
+    //     $this->validate($request, [
+    //         'NamaPelanggan' => 'required',
+    //         'Alamat' => 'required',
+    //         'NomorTelepon' => 'required',
+    //     ]);
 
-        DB::table('pelanggan')->where('PelangganID', $PelangganID)->update([
-            'NamaPelanggan' => $request->NamaPelanggan,
-            'Alamat' => $request->Alamat,
-            'NomorTelepon' => $request->NomorTelepon,
-        ]);
-        return redirect()->back()->with(['message' => 'pelanggan berhasil di Edit', 'status' => 'success']);
-    }
+    //     DB::table('pelanggan')->where('PelangganID', $PelangganID)->update([
+    //         'NamaPelanggan' => $request->NamaPelanggan,
+    //         'Alamat' => $request->Alamat,
+    //         'NomorTelepon' => $request->NomorTelepon,
+    //     ]);
+    //     return redirect()->back()->with(['message' => 'pelanggan berhasil di Edit', 'status' => 'success']);
+    // }
 
 
 
